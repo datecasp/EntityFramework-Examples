@@ -35,7 +35,8 @@ namespace EntityFramework.Controllers
         }
 
         // GET: api/Usuarios
-        // Dwvuelve los libros del usuario buscado
+        // Returns ths Libros assigned to Usuario by ID
+
         [HttpGet("{idUsuario}")]
         public async Task<IEnumerable<Array>> GetLibrosUsuario (int idUsuario)
         {
@@ -48,7 +49,11 @@ namespace EntityFramework.Controllers
         }
 
         // GET: api/Usuarios/5
+
         /*
+         * 
+         * GET Usuario by Id METHOD
+         * 
         [HttpGet("{id}")]
         public async Task<ActionResult<Usuario>> GetUsuario(int id)
         {
@@ -65,6 +70,9 @@ namespace EntityFramework.Controllers
 
         // PUT: api/Usuarios/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        // Modify Usuario properties
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsuario(int id, Usuario usuario)
         {
@@ -96,6 +104,9 @@ namespace EntityFramework.Controllers
 
         // POST: api/Usuarios
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        // POST Usuario with assigned Libro
+
         [HttpPost]
         public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
         {
