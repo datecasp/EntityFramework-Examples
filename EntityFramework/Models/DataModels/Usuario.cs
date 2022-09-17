@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Framework;
+﻿using EntityFramework.DataAccess;
+using Microsoft.Build.Framework;
 
 namespace EntityFramework.Models.DataModels
 {

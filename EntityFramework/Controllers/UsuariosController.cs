@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EntityFramework.DataAccess;
 using EntityFramework.Models.DataModels;
+using System.Diagnostics.Eventing.Reader;
 
 namespace EntityFramework.Controllers
 {
@@ -25,17 +26,15 @@ namespace EntityFramework.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
         {
-            var usuarios = await _context.Usuarios.ToListAsync();
-            // Instanciamos todos los libros para que "inflen" los objetos "Libros"
-            // dentro de cada usuario correspondiente
-            // Sin esto, los Objetos Libros de cada usuario se quedan en NULL
-            var libros = await _context.Libros.ToListAsync();
-
-            return await _context.Usuarios.ToListAsync();
+            var usuarios = await _context.Usuarios.ToArrayAsync();
+          
+            return usuarios;
+            
         }
 
         // GET: api/Usuarios
-        // Dwvuelve los libros del usuario buscado
+        // GET all the Libros that are assigned to Usuario
+
         [HttpGet("{idUsuario}")]
         public async Task<IEnumerable<Array>> GetLibrosUsuario (int idUsuario)
         {

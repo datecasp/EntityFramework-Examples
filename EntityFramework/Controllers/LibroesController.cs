@@ -29,14 +29,16 @@ namespace EntityFramework.Controllers
         }
 
         // GET: api/Libroes/5
-        [HttpGet("{idUsuario}")]
-        public async Task<IEnumerable<Array>> GetLibrosDeUsuario(int idUsuario)
+
+        // GET all the Usuarios that have had a Libro
+        [HttpGet("{idLibro}")]
+        public async Task<IEnumerable<Array>> GetLibrosDeUsuario(int idLibro)
         {
             
-            var libros = from usuario in _context.Usuarios 
-                         where usuario.Id == idUsuario
-                         select usuario.Libros.ToArray();
-            return libros;
+            var usuarios = from libro in _context.Libros 
+                         where libro.Id == idLibro
+                         select libro.Usuarios.ToArray();
+            return usuarios;
         }
 
         // GET: api/Libroes/5

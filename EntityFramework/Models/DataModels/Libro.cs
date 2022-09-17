@@ -9,6 +9,7 @@ namespace EntityFramework.Models.DataModels
         public string Titulo { get; set; } = string.Empty;
         [Required]
         public string Autor { get; set; } = string.Empty;
-        //public IEnumerable<Usuario> Usuarios { get; set; }
+        
+        public IEnumerable<Usuario> Usuarios { get; set; }
     }
 }
