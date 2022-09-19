@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFramework.Migrations
 {
     [DbContext(typeof(EntityDBContext))]
-    [Migration("20220917183814_1 a n")]
-    partial class _1an
+    [Migration("20220919005455_initial2")]
+    partial class initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,11 +26,11 @@ namespace EntityFramework.Migrations
 
             modelBuilder.Entity("EntityFramework.Models.DataModels.Libro", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("LibroId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LibroId"), 1L, 1);
 
                     b.Property<string>("Autor")
                         .IsRequired()
@@ -40,38 +40,71 @@ namespace EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UsuarioId")
+                    b.Property<int?>("UsuarioRefId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
+                    b.HasKey("LibroId");
 
                     b.ToTable("Libros");
                 });
 
+            modelBuilder.Entity("EntityFramework.Models.DataModels.LibroUsuario", b =>
+                {
+                    b.Property<int>("LibroId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LibroId", "UsuarioId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("LibroUsuario");
+                });
+
             modelBuilder.Entity("EntityFramework.Models.DataModels.Usuario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UsuarioId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UsuarioId"), 1L, 1);
+
+                    b.Property<int?>("LibroRefId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UsuarioId");
 
                     b.ToTable("Usuarios");
                 });
 
+            modelBuilder.Entity("EntityFramework.Models.DataModels.LibroUsuario", b =>
+                {
+                    b.HasOne("EntityFramework.Models.DataModels.Libro", "Libros")
+                        .WithMany("Usuarios")
+                        .HasForeignKey("LibroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntityFramework.Models.DataModels.Usuario", "Usuarios")
+                        .WithMany("Libros")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Libros");
+
+                    b.Navigation("Usuarios");
+                });
+
             modelBuilder.Entity("EntityFramework.Models.DataModels.Libro", b =>
                 {
-                    b.HasOne("EntityFramework.Models.DataModels.Usuario", null)
-                        .WithMany("Libros")
-                        .HasForeignKey("UsuarioId");
+                    b.Navigation("Usuarios");
                 });
 
             modelBuilder.Entity("EntityFramework.Models.DataModels.Usuario", b =>

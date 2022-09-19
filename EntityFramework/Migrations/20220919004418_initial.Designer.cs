@@ -4,6 +4,7 @@ using EntityFramework.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFramework.Migrations
 {
     [DbContext(typeof(EntityDBContext))]
-    partial class EntityDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220919004418_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,6 +71,9 @@ namespace EntityFramework.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UsuarioId"), 1L, 1);
 
+                    b.Property<int?>("LibroId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("LibroRefId")
                         .HasColumnType("int");
 
@@ -78,13 +83,15 @@ namespace EntityFramework.Migrations
 
                     b.HasKey("UsuarioId");
 
+                    b.HasIndex("LibroId");
+
                     b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("EntityFramework.Models.DataModels.LibroUsuario", b =>
                 {
                     b.HasOne("EntityFramework.Models.DataModels.Libro", "Libros")
-                        .WithMany("Usuarios")
+                        .WithMany()
                         .HasForeignKey("LibroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -98,6 +105,13 @@ namespace EntityFramework.Migrations
                     b.Navigation("Libros");
 
                     b.Navigation("Usuarios");
+                });
+
+            modelBuilder.Entity("EntityFramework.Models.DataModels.Usuario", b =>
+                {
+                    b.HasOne("EntityFramework.Models.DataModels.Libro", null)
+                        .WithMany("Usuarios")
+                        .HasForeignKey("LibroId");
                 });
 
             modelBuilder.Entity("EntityFramework.Models.DataModels.Libro", b =>

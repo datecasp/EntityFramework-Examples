@@ -36,7 +36,7 @@ namespace EntityFramework.Controllers
         {
             
             var usuarios = from libro in _context.Libros 
-                         where libro.Id == idLibro
+                         where libro.LibroId == idLibro
                          select libro.Usuarios.ToArray();
             return usuarios;
         }
@@ -62,7 +62,7 @@ namespace EntityFramework.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLibro(int id, Libro libro)
         {
-            if (id != libro.Id)
+            if (id != libro.LibroId)
             {
                 return BadRequest();
             }
@@ -96,7 +96,7 @@ namespace EntityFramework.Controllers
             _context.Libros.Add(libro);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLibro", new { id = libro.Id }, libro);
+            return CreatedAtAction("GetLibro", new { id = libro.LibroId }, libro);
         }
 
         // DELETE: api/Libroes/5
@@ -117,7 +117,7 @@ namespace EntityFramework.Controllers
 
         private bool LibroExists(int id)
         {
-            return _context.Libros.Any(e => e.Id == id);
+            return _context.Libros.Any(e => e.LibroId == id);
         }
     }
 }

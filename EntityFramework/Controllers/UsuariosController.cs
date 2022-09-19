@@ -26,9 +26,32 @@ namespace EntityFramework.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
         {
-            var usuarios = await _context.Usuarios.ToArrayAsync();
-          
-            return usuarios;
+            var usuarios = await _context.Usuarios.ToListAsync();
+            var libros = await _context.Libros.ToListAsync();
+
+            Usuario[] arrayUsuarios = new Usuario[usuarios.Count];
+       
+            for(int i = 1; i < usuarios.Count; i++)
+            {
+                /*
+                 * CREAR UNA CLASE LIBROSBASICOS CON SOLO LA INFO DEL LIBRO
+                 * PARA MOSTRAR
+                 * AHORA MISMO ESTOY COGIENDO LOS DATOS DE LIBROUSUARIO
+                 * CAMBIAR ESE ORIGEN A LIBROSBASICOS QUE PUEDE SER UNA COPIA
+                 * DE PARTES CONCRTEAS DE UN OBJETO LIBROUSUARIO QUE TIENE TODO
+                 * 
+                 * CREAR UNA CLASE LIBROSBSICOS CON INFO BASICA Y VINCULARLA TAMBIEN
+                 * AL RESTO DE TABLAS COMO LIBROUSUARIO PARA QUE RECIBA LA INFO JUSTA
+                 * Y AMBIAR LA REFERENCIA EN EL INCLUDE(USU => USU.LIBROS A USU.lIBROSBASICOS
+                 */
+
+
+                // Works but object cycle issue at serialization in swagger
+                var usuConLib = _context.Usuarios.Include(usu => usu.Libros).ThenInclude(row => row.Libros).First(usu => usu.UsuarioId == i);
+                if (usuConLib != null) arrayUsuarios[i] = usuConLib;
+            }
+
+            return arrayUsuarios;
             
         }
 
@@ -39,7 +62,7 @@ namespace EntityFramework.Controllers
         public async Task<IEnumerable<Array>> GetLibrosUsuario (int idUsuario)
         {
             var libros = from usuario in _context.Usuarios
-                         where usuario.Id == idUsuario
+                         where usuario.UsuarioId == idUsuario
                          select usuario.Libros.ToArray();
             
             return libros;
@@ -67,7 +90,7 @@ namespace EntityFramework.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsuario(int id, Usuario usuario)
         {
-            if (id != usuario.Id)
+            if (id != usuario.UsuarioId)
             {
                 return BadRequest();
             }
@@ -122,7 +145,7 @@ namespace EntityFramework.Controllers
 
         private bool UsuarioExists(int id)
         {
-            return _context.Usuarios.Any(e => e.Id == id);
+            return _context.Usuarios.Any(e => e.UsuarioId == id);
         }
     }
 }
