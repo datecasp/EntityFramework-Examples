@@ -13,28 +13,34 @@ namespace EntityFramework.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuariosController : ControllerBase
+    public class UsuariosController : Controller
     {
         private readonly EntityDBContext _context;
+        private readonly ILogger<UsuariosController> _logger;
 
-        public UsuariosController(EntityDBContext context)
+
+        public UsuariosController(ILogger<UsuariosController> logger, EntityDBContext context)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Usuarios
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
+        public async Task<ActionResult> GetUsuarios()
         {
-            var usuarios = await _context.Usuarios.ToArrayAsync();
+            var usuarios = await _context.Users
+                .Include(x => x.LibroUsuarios)
+                .ThenInclude(x => x.Libro)
+                .ToListAsync();
           
-            return usuarios;
+            return View(usuarios);
             
         }
 
         // GET: api/Usuarios
         // GET all the Libros that are assigned to Usuario
-
+        /*
         [HttpGet("{idUsuario}")]
         public async Task<IEnumerable<Array>> GetLibrosUsuario (int idUsuario)
         {
@@ -45,7 +51,7 @@ namespace EntityFramework.Controllers
             return libros;
 
         }
-
+        */
         // GET: api/Usuarios/5
         /*
         [HttpGet("{id}")]
@@ -64,6 +70,7 @@ namespace EntityFramework.Controllers
 
         // PUT: api/Usuarios/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /*
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsuario(int id, Usuario usuario)
         {
@@ -92,9 +99,10 @@ namespace EntityFramework.Controllers
 
             return NoContent();
         }
-
+        */
         // POST: api/Usuarios
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /*
         [HttpPost]
         public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
         {
@@ -103,8 +111,9 @@ namespace EntityFramework.Controllers
 
             return Ok();//CreatedAtAction("GetUsuario", new { id = usuario.Id }, usuario);
         }
-
+        */
         // DELETE: api/Usuarios/5
+        /*
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUsuario(int id)
         {
@@ -124,5 +133,6 @@ namespace EntityFramework.Controllers
         {
             return _context.Usuarios.Any(e => e.Id == id);
         }
+        */
     }
 }

@@ -1,15 +1,13 @@
-﻿using Microsoft.Build.Framework;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Build.Framework;
 using Newtonsoft.Json;
 
 namespace EntityFramework.Models.DataModels
 {
-    public class Libro : BaseEntity
+    public class Libro : IdentityRole
     {
-        [Required]
-        public string Titulo { get; set; } = string.Empty;
-        [Required]
-        public string Autor { get; set; } = string.Empty;
-        
-        public IEnumerable<Usuario> Usuarios { get; set; }
+        public ICollection<LibroUsuario> LibroUsuarios { get; set; }
+
+       
     }
 }

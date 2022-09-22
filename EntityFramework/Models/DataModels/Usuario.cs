@@ -1,13 +1,13 @@
 ﻿using EntityFramework.DataAccess;
-using Microsoft.Build.Framework;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EntityFramework.Models.DataModels
 {
-    public class Usuario : BaseEntity
+    public class Usuario : IdentityUser
     {
-        [Required]
-        public string Nombre { get; set; } = string.Empty;
-
-        public IEnumerable<Libro> Libros { get; set; }
+        public ICollection<LibroUsuario> LibroUsuarios { get; set; }
     }
 }

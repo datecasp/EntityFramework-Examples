@@ -12,25 +12,34 @@ namespace EntityFramework.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LibroesController : ControllerBase
+    public class LibrosController : Controller
     {
         private readonly EntityDBContext _context;
+        private readonly ILogger<UsuariosController> _logger;
 
-        public LibroesController(EntityDBContext context)
+
+        public LibrosController(ILogger<UsuariosController> logger, EntityDBContext context)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Libroes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Libro>>> GetLibros()
+        public async Task<ActionResult> GetLibros()
         {
-            return await _context.Libros.ToListAsync();
+            var libros = await _context.Roles
+                .Include(x => x.LibroUsuarios)
+                .ThenInclude(x => x.Usuario)
+                .ToListAsync();
+
+            return View(libros);
         }
 
         // GET: api/Libroes/5
 
         // GET all the Usuarios that have had a Libro
+        /*
         [HttpGet("{idLibro}")]
         public async Task<IEnumerable<Array>> GetLibrosDeUsuario(int idLibro)
         {
@@ -40,7 +49,7 @@ namespace EntityFramework.Controllers
                          select libro.Usuarios.ToArray();
             return usuarios;
         }
-
+        */
         // GET: api/Libroes/5
         /*
         [HttpGet("{id}")]
@@ -59,6 +68,7 @@ namespace EntityFramework.Controllers
 
         // PUT: api/Libroes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /*
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLibro(int id, Libro libro)
         {
@@ -119,5 +129,6 @@ namespace EntityFramework.Controllers
         {
             return _context.Libros.Any(e => e.Id == id);
         }
+        */
     }
 }

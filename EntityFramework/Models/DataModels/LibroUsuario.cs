@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace EntityFramework.Models.DataModels
 {
-    public class LibroUsuario
+    public class LibroUsuario : IdentityUserRole<string>
     {
-        [Required]
-        public int LibroId { get; set; } = 0;
-        [Required]
-        public int UsuarioId { get; set; } = 0;
+        public Libro Libro { get; set; }
+        public Usuario Usuario { get; set; }
     }
 }
