@@ -29,23 +29,6 @@ namespace EntityFramework.Controllers
         }
 
         // GET: api/Libroes/5
-
-        // GET all Libros ssigned to Usuario By ID
-
-        [HttpGet("{idUsuario}")]
-        public async Task<IEnumerable<Array>> GetLibrosDeUsuario(int idUsuario)
-        {
-            
-            var libros = from usuario in _context.Usuarios 
-                         where usuario.Id == idUsuario
-                         select usuario.Libros.ToArray();
-            return libros;
-        }
-
-        // GET: api/Libroes/5
-        /*
-         * GET Libro by Id
-         * 
         [HttpGet("{id}")]
         public async Task<ActionResult<Libro>> GetLibro(int id)
         {
@@ -58,13 +41,9 @@ namespace EntityFramework.Controllers
 
             return libro;
         }
-        */
 
         // PUT: api/Libroes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-
-        // Modify Libro properties
-
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLibro(int id, Libro libro)
         {
@@ -96,9 +75,6 @@ namespace EntityFramework.Controllers
 
         // POST: api/Libroes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        
-        // POST Libro
-
         [HttpPost]
         public async Task<ActionResult<Libro>> PostLibro(Libro libro)
         {
