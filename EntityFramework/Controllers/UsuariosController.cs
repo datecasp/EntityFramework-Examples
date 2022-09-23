@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EntityFramework.DataAccess;
 using EntityFramework.Models.DataModels;
+using System.Net.Sockets;
 
 namespace EntityFramework.Controllers
 {
@@ -25,6 +26,24 @@ namespace EntityFramework.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
         {
+            var usuarios = await _context.Usuarios.ToListAsync();
+            var libros = await _context.Libros.ToListAsync();
+
+            foreach (var usuario in usuarios)
+            {
+                foreach (var libro in libros)
+                {
+                    if (libro.UsuarioId == usuario.Id)
+                    {
+                        var libroUsuario = new Usuario()
+                        {
+                            Id = usuario.Id,
+                            Nombre = usuario.Nombre,
+                            Libros = new Libro[] { libro }
+                        };
+                    }
+                }
+            }
             return await _context.Usuarios.ToListAsync();
         }
 
@@ -33,10 +52,24 @@ namespace EntityFramework.Controllers
         public async Task<ActionResult<Usuario>> GetUsuario(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
+            var libros = await _context.Libros.ToListAsync();
 
             if (usuario == null)
             {
                 return NotFound();
+            }
+
+            foreach (var libro in libros)
+            {
+                if (libro.UsuarioId == id)
+                {
+                    var libroUsuario = new Usuario()
+                    {
+                        Id = usuario.Id,
+                        Nombre = usuario.Nombre,
+                        Libros = new Libro[] { libro }
+                    };
+                }
             }
 
             return usuario;
@@ -81,7 +114,7 @@ namespace EntityFramework.Controllers
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
 
-            return Ok();//CreatedAtAction("GetUsuario", new { id = usuario.Id }, usuario);
+            return CreatedAtAction("GetUsuario", new { id = usuario.Id }, usuario);
         }
 
         // DELETE: api/Usuarios/5
