@@ -36,13 +36,13 @@ namespace EntityFramework.Controllers
         // GET all the Libros that are assigned to Usuario
 
         [HttpGet("{idUsuario}")]
-        public async Task<IEnumerable<Array>> GetLibrosUsuario (int idUsuario)
+        public async Task<ICollection<Array>> GetLibrosUsuario (int idUsuario)
         {
             var libros = from usuario in _context.Usuarios
                          where usuario.Id == idUsuario
-                         select usuario.Libros.ToArray();
+                         select usuario.LibroUsuarios.ToArray();
             
-            return libros;
+            return libros.ToArray();
 
         }
 

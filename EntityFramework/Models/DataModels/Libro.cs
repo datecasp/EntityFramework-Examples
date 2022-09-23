@@ -10,6 +10,6 @@ namespace EntityFramework.Models.DataModels
         [Required]
         public string Autor { get; set; } = string.Empty;
         
-        public IEnumerable<Usuario> Usuarios { get; set; }
+        public IEnumerable<LibroUsuario> LibroUsuarios { get; set; }
     }
 }

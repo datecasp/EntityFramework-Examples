@@ -7,36 +7,39 @@ RelationshipDiscoveryConvention:InverseNavigationCandidates: System.Collections.
 SqlServer:ValueGenerationStrategy: IdentityColumn" Category="Model" Group="Expanded" />
 <Node Id = "Libro" Label="Libro" Name="Libro" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Libros
 RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
-<Node Id = "Usuario" Label="Usuario" Name="Usuario" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Usuarios
+<Node Id = "LibroUsuario" Label="LibroUsuario" Name="LibroUsuario" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: LibroUsuarios
 RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
 <Node Id = "Libro.Id" Label="Id (int)" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Libro.LibroUsuarios" Label="LibroUsuarios (*)" Name="LibroUsuarios" Category="Navigation Collection" Type="IEnumerable&lt;LibroUsuario&gt;"  Field="" Dependent="LibroUsuario" Principal="" Inverse="Libro" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Libro.Autor" Label="Autor (string)" Name="Autor" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
 <Node Id = "Libro.Titulo" Label="Titulo (string)" Name="Titulo" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "Libro.Usuarios" Label="Usuarios (IEnumerable&lt;Usuario&gt;)" Name="Usuarios" Category="Property Optional" Type="IEnumerable&lt;Usuario&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "LibroUsuario" Label="LibroUsuario" Name="LibroUsuario" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Usuario" Label="Usuario" Name="Usuario" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Usuarios
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "LibroUsuario.Id" Label="Id (int)" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "LibroUsuario.Libro" Label="Libro (1)" Name="Libro" Category="Navigation Property" Type="Libro"  Field="" Dependent="" Principal="Libro" Inverse="LibroUsuarios" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "LibroUsuario.Usuario" Label="Usuario (1)" Name="Usuario" Category="Navigation Property" Type="Usuario"  Field="" Dependent="" Principal="Usuario" Inverse="LibroUsuarios" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Usuario" Label="Usuario" Name="Usuario" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="" Category="EntityType" Group="Expanded" />
 <Node Id = "Usuario.Id" Label="Id (int)" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Usuario.LibroUsuarios" Label="LibroUsuarios (*)" Name="LibroUsuarios" Category="Navigation Collection" Type="ICollection&lt;LibroUsuario&gt;"  Field="" Dependent="LibroUsuario" Principal="" Inverse="Usuario" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Usuario.Nombre" Label="Nombre (string)" Name="Nombre" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "Usuario.Libros" Label="Libros (IEnumerable&lt;Libro&gt;)" Name="Libros" Category="Property Optional" Type="IEnumerable&lt;Libro&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "LibroUsuario" Label="LibroUsuario" Name="LibroUsuario" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="" Category="EntityType" Group="Expanded" />
-<Node Id = "LibroUsuario.LibrosId" Label="LibrosId (int)" Name="LibrosId" Category="Property Primary" Type="int" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "LibroUsuario.UsuariosId" Label="UsuariosId (int)" Name="UsuariosId" Category="Property Primary" Type="int" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
   </Nodes>
   <Links>
 <Link Source = "IModel" Target="Libro" Category="Contains" />
-<Link Source = "IModel" Target="Usuario" Category="Contains" />
+<Link Source = "IModel" Target="LibroUsuario" Category="Contains" />
+<Link Source = "Libro" Target="Libro.LibroUsuarios" Category="Contains" />
 <Link Source = "Libro" Target="Libro.Id" Category="Contains" />
 <Link Source = "Libro" Target="Libro.Autor" Category="Contains" />
 <Link Source = "Libro" Target="Libro.Titulo" Category="Contains" />
-<Link Source = "Libro" Target="Libro.Usuarios" Category="Contains" />
-<Link Source = "IModel" Target="LibroUsuario" Category="Contains" />
+<Link Source = "IModel" Target="Usuario" Category="Contains" />
+<Link Source = "LibroUsuario" Target="LibroUsuario.Libro" Category="Contains" />
+<Link Source = "LibroUsuario" Target="LibroUsuario.Usuario" Category="Contains" />
+<Link Source = "LibroUsuario" Target="LibroUsuario.Id" Category="Contains" />
+<Link Source="LibroUsuario" Target="Libro" From="LibroUsuario.Id" To="Libro.Id" Name="LibroUsuario -> Libro" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="LibroUsuario" Target="Usuario" From="LibroUsuario.Id" To="Usuario.Id" Name="LibroUsuario -> Usuario" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "IModel" Target="Usuario" Category="Contains" />
+<Link Source = "Usuario" Target="Usuario.LibroUsuarios" Category="Contains" />
 <Link Source = "Usuario" Target="Usuario.Id" Category="Contains" />
 <Link Source = "Usuario" Target="Usuario.Nombre" Category="Contains" />
-<Link Source = "Usuario" Target="Usuario.Libros" Category="Contains" />
-<Link Source = "IModel" Target="LibroUsuario" Category="Contains" />
-<Link Source = "LibroUsuario" Target="LibroUsuario.LibrosId" Category="Contains" />
-<Link Source="LibroUsuario" Target="Libro" From="LibroUsuario.LibrosId" To="Libro.Id" Name="LibroUsuario -> Libro" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
-<Link Source="LibroUsuario" Target="Usuario" From="LibroUsuario.UsuariosId" To="Usuario.Id" Name="LibroUsuario -> Usuario" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
-<Link Source = "LibroUsuario" Target="LibroUsuario.UsuariosId" Category="Contains" />
   </Links>
   <Styles>
     <Style TargetType="Node" GroupLabel="EntityType" ValueLabel="True">

@@ -3,6 +3,7 @@ using EntityFramework.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFramework.Migrations
 {
     [DbContext(typeof(EntityDBContext))]
-    partial class EntityDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220922221816_n to m root")]
+    partial class ntomroot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +41,7 @@ namespace EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Libros", (string)null);
+                    b.ToTable("Libros");
                 });
 
             modelBuilder.Entity("EntityFramework.Models.DataModels.LibroUsuario", b =>
@@ -49,7 +51,7 @@ namespace EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LibroUsuarios", (string)null);
+                    b.ToTable("LibroUsuarios");
                 });
 
             modelBuilder.Entity("EntityFramework.Models.DataModels.Usuario", b =>
@@ -66,7 +68,7 @@ namespace EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuarios", (string)null);
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("EntityFramework.Models.DataModels.LibroUsuario", b =>

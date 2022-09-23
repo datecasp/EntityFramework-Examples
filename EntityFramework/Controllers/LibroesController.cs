@@ -7,18 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EntityFramework.DataAccess;
 using EntityFramework.Models.DataModels;
+using System.ComponentModel;
 
 namespace EntityFramework.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LibroesController : ControllerBase
+    public class LibroesController : Controller
     {
         private readonly EntityDBContext _context;
+        private readonly ILogger<Controller> _logger;
 
-        public LibroesController(EntityDBContext context)
+        public LibroesController(ILogger<Controller> logger, EntityDBContext context)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Libroes
@@ -32,13 +35,28 @@ namespace EntityFramework.Controllers
 
         // GET all the Usuarios that have had a Libro
         [HttpGet("{idLibro}")]
-        public async Task<IEnumerable<Array>> GetLibrosDeUsuario(int idLibro)
+        public async Task<ActionResult> GetLibrosDeUsuario(int idLibro)
         {
-            
-            var usuarios = from libro in _context.Libros 
-                         where libro.Id == idLibro
-                         select libro.Usuarios.ToArray();
-            return usuarios;
+            List<LibroUsuario> lu = new List<LibroUsuario>();
+
+            var lista = (from libros in _context.Libros
+                         where libros.Id == idLibro
+                         select new { libros.Id, libros.Autor, libros.Titulo});         
+          
+            foreach(var item in lista)
+            {
+                LibroUsuario luTemp = new LibroUsuario();
+                
+                    luTemp.Libro.Id = item.Id;
+                    luTemp.Libro.Titulo = item.Titulo;
+                    luTemp.Libro.Autor = item.Autor;
+                   // luTemp.Usuario.Nombre = item.Nombre;
+                
+
+                lu.Add(luTemp);
+            }
+
+            return View(lu);
         }
 
         // GET: api/Libroes/5

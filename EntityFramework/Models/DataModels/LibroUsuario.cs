@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EntityFramework.Models.DataModels
 {
-    public class LibroUsuario
+    public class LibroUsuario : BaseEntity
     {
         [Required]
-        public int LibroId { get; set; } = 0;
+        public Libro Libro { get; set; }
         [Required]
-        public int UsuarioId { get; set; } = 0;
+        public Usuario Usuario { get; set; }
     }
 }
