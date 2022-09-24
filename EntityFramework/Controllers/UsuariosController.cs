@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EntityFramework.DataAccess;
 using EntityFramework.Models.DataModels;
 using System.Diagnostics.Eventing.Reader;
+using System.Net.Sockets;
 
 namespace EntityFramework.Controllers
 {
@@ -26,24 +27,59 @@ namespace EntityFramework.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
         {
-            var usuarios = await _context.Usuarios.ToArrayAsync();
-          
-            return usuarios;
-            
+            var usuarios = await _context.Usuarios.ToListAsync();
+            var libros = await _context.Libros.ToListAsync();
+            List<Usuario> result = new List<Usuario>();
+
+            foreach (var usuario in usuarios)
+            {
+                foreach (var libro in libros)
+                {
+                    if (libro.Id == usuario.LibroId)
+                    {
+                        var libroUsuario = new Usuario()
+                        {
+                            Id = usuario.Id,
+                            Nombre = usuario.Nombre,
+                            Libros = new Libro[] { libro }
+                        };
+                        result.Add(libroUsuario);
+                    }
+                }
+            }
+            return result;
+
         }
 
         // GET: api/Usuarios
         // GET all the Libros that are assigned to Usuario
 
-        [HttpGet("{idUsuario}")]
-        public async Task<ICollection<Array>> GetLibrosUsuario (int idUsuario)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Usuario>> GetUsuario(int id)
         {
-            var libros = from usuario in _context.Usuarios
-                         where usuario.Id == idUsuario
-                         select usuario.LibroUsuarios.ToArray();
-            
-            return libros.ToArray();
+            var usuario = await _context.Usuarios.FindAsync(id);
+            var libros = await _context.Libros.ToListAsync();
 
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var libro in libros)
+            {
+                if (libro.UsuarioId == id)
+                {
+                    var libroUsuario = new Usuario()
+                    {
+                        Id = usuario.Id,
+                        Nombre = usuario.Nombre,
+                        Libros = new Libro[] { libro }
+                    };
+                    usuario = libroUsuario;
+                }
+            }
+
+            return usuario;
         }
 
         // GET: api/Usuarios/5

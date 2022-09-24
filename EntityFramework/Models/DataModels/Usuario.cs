@@ -8,6 +8,7 @@ namespace EntityFramework.Models.DataModels
         [Required]
         public string Nombre { get; set; } = string.Empty;
 
-        public ICollection<LibroUsuario> LibroUsuarios { get; set; }
+        public ICollection<Libro> Libros { get; set; }
+        public int LibroId { get; set; }
     }
 }

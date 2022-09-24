@@ -3,6 +3,7 @@ using EntityFramework.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFramework.Migrations
 {
     [DbContext(typeof(EntityDBContext))]
-    partial class EntityDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220923234812_ResetDB")]
+    partial class ResetDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,19 +114,19 @@ namespace EntityFramework.Migrations
                         new
                         {
                             Id = -1,
-                            LibroId = -1,
+                            LibroId = 0,
                             Nombre = "Usu1"
                         },
                         new
                         {
                             Id = -2,
-                            LibroId = -1,
+                            LibroId = 0,
                             Nombre = "Usu2"
                         },
                         new
                         {
                             Id = -3,
-                            LibroId = -2,
+                            LibroId = 0,
                             Nombre = "Usu3"
                         });
                 });

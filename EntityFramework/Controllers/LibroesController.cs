@@ -26,37 +26,63 @@ namespace EntityFramework.Controllers
 
         // GET: api/Libroes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Libro>>> GetLibros()
+        public async Task<ActionResult<IEnumerable<Libro>>> GetUsuarios()
         {
-            return await _context.Libros.ToListAsync();
+            var usuarios = await _context.Usuarios.ToListAsync();
+            var libros = await _context.Libros.ToListAsync();
+            List<Libro> result = new List<Libro>();
+
+            foreach (var libro in libros)
+            {
+                foreach (var usuario in usuarios)
+                {
+                    if (usuario.Id == libro.UsuarioId)
+                    {
+                        var libroUsuario = new Libro()
+                        {
+                            Id = libro.Id,
+                            Titulo = libro.Titulo,
+                            Autor = libro.Autor,
+                            Usuarios = new Usuario[] { usuario }
+                        };
+                        result.Add(libroUsuario);
+                    }
+                }
+            }
+            return result;
+
         }
 
         // GET: api/Libroes/5
 
         // GET all the Usuarios that have had a Libro
         [HttpGet("{idLibro}")]
-        public async Task<ActionResult> GetLibrosDeUsuario(int idLibro)
+        public async Task<ActionResult<Libro>> GetLibrosDeUsuario(int idLibro)
         {
-            List<LibroUsuario> lu = new List<LibroUsuario>();
+            var usuarios = await _context.Usuarios.ToListAsync();
+            var libro = await _context.Libros.FindAsync(idLibro);
 
-            var lista = (from libros in _context.Libros
-                         where libros.Id == idLibro
-                         select new { libros.Id, libros.Autor, libros.Titulo});         
-          
-            foreach(var item in lista)
+            if (libro == null)
             {
-                LibroUsuario luTemp = new LibroUsuario();
-                
-                    luTemp.Libro.Id = item.Id;
-                    luTemp.Libro.Titulo = item.Titulo;
-                    luTemp.Libro.Autor = item.Autor;
-                   // luTemp.Usuario.Nombre = item.Nombre;
-                
-
-                lu.Add(luTemp);
+                return NotFound();
             }
 
-            return View(lu);
+            foreach (var usuario in usuarios)
+            {
+                if (usuario.LibroId == idLibro)
+                {
+                    var libroUsuario = new Libro()
+                    {
+                        Id = libro.Id,
+                        Titulo = libro.Titulo,
+                        Autor = libro.Autor,
+                        Usuarios = new Usuario[] { usuario }
+                    };
+                    libro = libroUsuario;
+                }
+            }
+
+            return libro;
         }
 
         // GET: api/Libroes/5
