@@ -29,22 +29,16 @@ namespace EntityFramework.Controllers
             var usuarios = await _context.Usuarios.ToListAsync();
             var libros = await _context.Libros.ToListAsync();
 
-            foreach (var usuario in usuarios)
-            {
-                foreach (var libro in libros)
-                {
-                    if (libro.UsuarioId == usuario.Id)
-                    {
-                        var libroUsuario = new Usuario()
-                        {
-                            Id = usuario.Id,
-                            Nombre = usuario.Nombre,
-                            Libros = new Libro[] { libro }
-                        };
-                    }
-                }
-            }
-            return await _context.Usuarios.ToListAsync();
+            var result = (from usu in usuarios
+                          join lib in libros
+                          on usu.Id
+                          equals lib.UsuarioId
+                          select new Usuario()
+                          {
+                              Libros = new Libro[] { lib }
+                          }).GroupBy(x => x.Id);
+
+            return usuarios;
         }
 
         // GET: api/Usuarios/5
@@ -59,18 +53,12 @@ namespace EntityFramework.Controllers
                 return NotFound();
             }
 
-            foreach (var libro in libros)
-            {
-                if (libro.UsuarioId == id)
-                {
-                    var libroUsuario = new Usuario()
-                    {
-                        Id = usuario.Id,
-                        Nombre = usuario.Nombre,
-                        Libros = new Libro[] { libro }
-                    };
-                }
-            }
+            var result = from lib in libros
+                         where lib.UsuarioId == id
+                         select new Usuario()
+                         {
+                             Libros = new Libro[] { lib }
+                         };
 
             return usuario;
         }
