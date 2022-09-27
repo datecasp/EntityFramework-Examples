@@ -27,17 +27,7 @@ namespace EntityFramework.Controllers
         public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
         {
             var usuarios = await _context.Usuarios.ToListAsync();
-            var libros = await _context.Libros.ToListAsync();
-
-            var result = (from usu in usuarios
-                          join lib in libros
-                          on usu.Id
-                          equals lib.UsuarioId
-                          select new Usuario()
-                          {
-                              Libros = new Libro[] { lib }
-                          }).GroupBy(x => x.Id);
-
+           
             return usuarios;
         }
 
@@ -46,6 +36,17 @@ namespace EntityFramework.Controllers
         public async Task<ActionResult<Usuario>> GetUsuario(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
+           
+            return usuario;
+        }
+
+        // GET: api/LibrosDeUsuario/5
+        //  Get the books of a user
+        [HttpGet]
+        [Route("api/LibrosDeUsuario/{UsuarioId}")]
+        public async Task<ActionResult<IEnumerable<Libro>>> GetLibrosDeUsuario(int UsuarioId)
+        {
+            var usuario = await _context.Usuarios.FindAsync(UsuarioId);
             var libros = await _context.Libros.ToListAsync();
 
             if (usuario == null)
@@ -54,13 +55,10 @@ namespace EntityFramework.Controllers
             }
 
             var result = from lib in libros
-                         where lib.UsuarioId == id
-                         select new Usuario()
-                         {
-                             Libros = new Libro[] { lib }
-                         };
+                         where lib.UsuarioId == UsuarioId
+                         select lib;
 
-            return usuario;
+            return result.ToArray();
         }
 
         // PUT: api/Usuarios/5

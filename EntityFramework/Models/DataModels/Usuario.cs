@@ -1,4 +1,5 @@
 ﻿using Microsoft.Build.Framework;
+using System.Text.Json.Serialization;
 
 namespace EntityFramework.Models.DataModels
 {
@@ -6,7 +7,7 @@ namespace EntityFramework.Models.DataModels
     {
         [Required]
         public string Nombre { get; set; } = string.Empty;
-
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IEnumerable<Libro> Libros { get; set; }
     }
 }
